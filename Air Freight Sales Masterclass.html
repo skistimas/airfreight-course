@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Air Freight Sales Masterclass</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0a1628;--blue:#1a3a6b;--sky:#2563eb;--skylt:#dbeafe;--teal:#0d9488;--teallt:#ccfbf1;--amber:#d97706;--amberlt:#fef3c7;--red:#dc2626;--redlt:#fee2e2;--green:#16a34a;--greenlt:#dcfce7;--w:#fff;--g50:#f8fafc;--g100:#f1f5f9;--g200:#e2e8f0;--g400:#94a3b8;--g600:#475569;--g800:#1e293b;--r:12px;--sh:0 2px 16px rgba(10,22,40,.09)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--g100);color:var(--g800);min-height:100vh}
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+.sidebar{background:var(--navy);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.brand{padding:1.1rem 1.1rem .9rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand-ico{font-size:24px;margin-bottom:.3rem}
+.brand h1{font-size:14px;color:#fff;line-height:1.3;font-family:'DM Serif Display',serif}
+.brand p{font-size:10px;color:rgba(255,255,255,.38);margin-top:2px}
+.pw{padding:.75rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.pl{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.4);margin-bottom:5px}
+.pb{background:rgba(255,255,255,.1);border-radius:99px;height:4px;overflow:hidden}
+.pf{height:100%;background:#0d9488;border-radius:99px;transition:width .5s;width:0%}
+.ns{font-size:9px;font-weight:600;letter-spacing:.09em;color:rgba(255,255,255,.26);padding:.75rem 1.1rem .25rem;text-transform:uppercase}
+.ni{display:flex;align-items:center;gap:8px;padding:.45rem 1.1rem;cursor:pointer;font-size:11px;color:rgba(255,255,255,.48);border-left:3px solid transparent;transition:all .12s;line-height:1.3}
+.ni:hover{background:rgba(255,255,255,.05);color:rgba(255,255,255,.82)}
+.ni.active{background:rgba(37,99,235,.2);color:#fff;border-left-color:#2563eb}
+.ni.done{color:rgba(255,255,255,.62)}
+.nd{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.32);flex-shrink:0;transition:all .3s}
+.ni.active .nd{border-color:#2563eb;color:#2563eb;background:rgba(37,99,235,.14)}
+.ni.done .nd{background:#0d9488;border-color:#0d9488;color:#fff;font-size:11px}
+.main{overflow-y:auto}
+.topbar{background:#fff;border-bottom:1px solid var(--g200);padding:.8rem 1.6rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.tt{font-size:13px;font-weight:500;color:var(--g800)}
+.tm{font-size:10px;color:var(--g400)}
+.bct{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--g600)}
+.bct span{background:var(--teallt);color:var(--teal);font-weight:600;padding:1px 7px;border-radius:99px;font-size:10px}
+.panel{display:none;padding:1.6rem;max-width:800px}
+.panel.active{display:block}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--r);padding:2rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
+.hero::before{content:'✈';font-size:150px;position:absolute;right:-10px;top:-20px;opacity:.05;line-height:1}
+.hero h2{font-size:26px;color:#fff;margin-bottom:.5rem;font-family:'DM Serif Display',serif}
+.hero p{font-size:13px;color:rgba(255,255,255,.66);line-height:1.7;max-width:500px}
+.og{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:1.1rem}
+.oc{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.7rem .85rem;font-size:11px;color:rgba(255,255,255,.76);display:flex;gap:8px;align-items:flex-start}
+.oi{width:24px;height:24px;background:#2563eb;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.1rem}
+.sc{background:#fff;border-radius:var(--r);padding:1rem;border:1px solid var(--g200);text-align:center;box-shadow:var(--sh)}
+.sv{font-size:28px;font-weight:600;color:var(--navy);font-family:'DM Serif Display',serif}
+.sl{font-size:10px;color:var(--g400);margin-top:2px}
+.sbtn{display:inline-flex;align-items:center;gap:6px;background:#2563eb;color:#fff;border:none;padding:.75rem 1.5rem;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:background .15s;font-family:'DM Sans',sans-serif}
+.sbtn:hover{background:#1d4ed8}
+/* MODULE */
+.mtag{display:inline-flex;background:var(--skylt);color:var(--sky);font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;margin-bottom:.75rem}
+.etag{display:inline-flex;background:var(--amberlt);color:var(--amber);font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-bottom:.75rem}
+.mh2{font-size:24px;color:var(--navy);margin-bottom:1.1rem;line-height:1.3;font-family:'DM Serif Display',serif;font-weight:400}
+.cc{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:1.2rem;margin-bottom:.75rem;box-shadow:var(--sh)}
+.cc h3{font-size:10px;font-weight:600;color:var(--navy);margin-bottom:.6rem;padding-bottom:.45rem;border-bottom:1px solid var(--g100);letter-spacing:.07em;text-transform:uppercase}
+.cc p{font-size:12px;color:var(--g600);line-height:1.75;margin-bottom:.45rem}
+.cc ul,.cc ol{padding-left:1.1rem;font-size:12px;color:var(--g600);line-height:1.9}
+.hl{background:var(--amberlt);border-left:4px solid var(--amber);border-radius:0 6px 6px 0;padding:.7rem .85rem;font-size:12px;color:#92400e;margin:.6rem 0;line-height:1.6;font-style:italic}
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.6rem}
+.cb{background:var(--g50);border-radius:8px;padding:.85rem;border:1px solid var(--g200)}
+.cb h4{font-size:10px;font-weight:600;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.cb ul{padding-left:.9rem;font-size:11px;color:var(--g600);line-height:1.85}
+.cb.bl{background:var(--skylt);border-color:#bfdbfe}.cb.bl h4{color:#1e40af}
+.cb.gr{background:var(--teallt);border-color:#99f6e4}.cb.gr h4{color:#0f766e}
+.cb.am{background:var(--amberlt);border-color:#fcd34d}.cb.am h4{color:#92400e}
+/* QUIZ */
+.qc{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:1.2rem;margin-top:.75rem;box-shadow:var(--sh)}
+.qh{display:flex;align-items:center;gap:8px;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(--g100)}
+.qh h3{font-size:14px;font-weight:600;color:var(--navy)}
+.qbg{background:var(--skylt);color:var(--sky);font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px}
+.qb{margin-bottom:1rem}
+.qb p{font-size:12px;font-weight:500;color:var(--g800);margin-bottom:.6rem;line-height:1.5}
+.opt{display:flex;align-items:flex-start;gap:8px;padding:.55rem .75rem;border-radius:7px;cursor:pointer;font-size:11px;color:var(--g600);border:1.5px solid var(--g200);transition:all .12s;margin-bottom:4px;line-height:1.5;background:var(--g50)}
+.opt:hover{border-color:#93c5fd;background:var(--skylt);color:var(--blue)}
+.opt.sel{border-color:#2563eb;background:var(--skylt);color:var(--blue)}
+.opt.ok{border-color:#0d9488;background:var(--teallt);color:#0f766e}
+.opt.bad{border-color:#dc2626;background:var(--redlt);color:#991b1b}
+.od{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.odi{width:6px;height:6px;border-radius:50%;background:currentColor;display:none}
+.opt.sel .odi,.opt.ok .odi{display:block}
+.gb{background:#2563eb;color:#fff;border:none;padding:.6rem 1.3rem;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;margin-top:.35rem;transition:background .15s;font-family:'DM Sans',sans-serif}
+.gb:hover{background:#1d4ed8}
+.qr{margin-top:.75rem;padding:.8rem;border-radius:7px;font-size:12px;font-weight:500;display:none}
+.qr.pass{background:var(--greenlt);color:var(--green);border:1px solid #86efac}
+.qr.fail{background:var(--redlt);color:var(--red);border:1px solid #fca5a5}
+.navb{display:flex;gap:.6rem;margin-top:1.25rem;justify-content:flex-end}
+.bsec{background:#fff;color:var(--g600);border:1px solid var(--g200);padding:.55rem 1rem;border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.bsec:hover{background:var(--g100)}
+.bpri{background:#2563eb;color:#fff;border:none;padding:.55rem 1.25rem;border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;transition:background .15s;font-family:'DM Sans',sans-serif}
+.bpri:hover{background:#1d4ed8}
+/* EXAM RESULTS */
+.scircle{width:110px;height:110px;border-radius:50%;border:5px solid #2563eb;background:var(--skylt);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 1rem}
+.sbig{font-size:36px;font-weight:600;color:var(--blue);line-height:1;font-family:'DM Serif Display',serif}
+.spct{font-size:12px;color:var(--sky)}
+.ra{background:#fff;border:1px solid var(--g200);border-radius:var(--r);padding:1.6rem;text-align:center;margin-top:1.1rem;box-shadow:var(--sh)}
+/* RESULTS PAGE */
+.bgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin:1rem 0}
+.bi{text-align:center}
+.bcirc{width:54px;height:54px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:24px;border:2.5px solid var(--g200);background:var(--g100);transition:all .4s}
+.bcirc.earned{border-color:#0d9488;background:var(--teallt);box-shadow:0 0 0 3px rgba(13,148,136,.13)}
+.bn{font-size:9px;color:var(--g400);line-height:1.3}
+.bi.earned .bn{color:var(--g600)}
+.certbox{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--r);padding:2rem;text-align:center;margin-top:1.1rem;display:none;position:relative;overflow:hidden}
+.certbox::before{content:'';position:absolute;inset:8px;border:1px solid rgba(255,255,255,.13);border-radius:7px;pointer-events:none}
+.certbox.show{display:block}
+.cseal{font-size:48px;margin-bottom:.75rem}
+.ctitle{font-size:22px;color:#fff;font-family:'DM Serif Display',serif;margin-bottom:.3rem}
+.csub{font-size:11px;color:rgba(255,255,255,.48);margin-bottom:.35rem}
+.ccourse{font-size:15px;color:#fff;font-weight:500;margin-bottom:.85rem}
+.cpill{display:inline-block;background:#0d9488;color:#fff;padding:4px 16px;border-radius:99px;font-size:12px;font-weight:600;margin-bottom:.5rem}
+.cdate{font-size:10px;color:rgba(255,255,255,.33)}
+.printbtn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25);padding:.55rem 1.2rem;border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;margin-top:.9rem;font-family:'DM Sans',sans-serif;transition:background .15s}
+.printbtn:hover{background:rgba(255,255,255,.22)}
+@media print{.sidebar,.topbar,.navb,.printbtn{display:none!important}.shell{grid-template-columns:1fr}.certbox{display:block!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media(max-width:680px){.shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.tc,.og,.sr,.bgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="sidebar">
+  <div class="brand"><div class="brand-ico">✈</div><h1>Air Freight Sales Masterclass</h1><p>Digital Logistics Training</p></div>
+  <div class="pw"><div class="pl"><span>Progress</span><span id="pp">0%</span></div><div class="pb"><div class="pf" id="pf"></div></div></div>
+  <div class="ns">Course</div>
+  <div class="ni active" id="ni-home" onclick="go('home')"><div class="nd">★</div>Welcome</div>
+  <div class="ns">Modules</div>
+  <div class="ni" id="ni-m1" onclick="go('m1')"><div class="nd" id="nd-m1">1</div>What salespeople sell</div>
+  <div class="ni" id="ni-m2" onclick="go('m2')"><div class="nd" id="nd-m2">2</div>When air freight is right</div>
+  <div class="ni" id="ni-m3" onclick="go('m3')"><div class="nd" id="nd-m3">3</div>Air export flow</div>
+  <div class="ni" id="ni-m4" onclick="go('m4')"><div class="nd" id="nd-m4">4</div>Air import flow</div>
+  <div class="ni" id="ni-m5" onclick="go('m5')"><div class="nd" id="nd-m5">5</div>Pricing &amp; weight</div>
+  <div class="ni" id="ni-m6" onclick="go('m6')"><div class="nd" id="nd-m6">6</div>Scope &amp; Incoterms</div>
+  <div class="ni" id="ni-m7" onclick="go('m7')"><div class="nd" id="nd-m7">7</div>Operations literacy</div>
+  <div class="ni" id="ni-m8" onclick="go('m8')"><div class="nd" id="nd-m8">8</div>Traditional vs digital</div>
+  <div class="ni" id="ni-m9" onclick="go('m9')"><div class="nd" id="nd-m9">9</div>Objection handling</div>
+  <div class="ni" id="ni-m10" onclick="go('m10')"><div class="nd" id="nd-m10">10</div>Discovery &amp; scripts</div>
+  <div class="ns">Assessment</div>
+  <div class="ni" id="ni-exam" onclick="go('exam')"><div class="nd" id="nd-exam">✦</div>Final exam</div>
+  <div class="ni" id="ni-results" onclick="go('results')"><div class="nd">🏆</div>Results &amp; certificate</div>
+</nav>
+<div class="main">
+<div class="topbar">
+  <div><div class="tt" id="tt">Welcome</div><div class="tm">Air Freight Digital Logistics Sales Masterclass</div></div>
+  <div class="bct">Badges: <span id="bc">0</span>/10</div>
+</div>
+
+<div id="p-home" class="panel active">
+<div class="hero"><h2>Welcome aboard</h2>
+<p>Train to sell air freight consultatively, explain import/export flows clearly, handle pricing objections with confidence, and differentiate digital logistics from transactional freight sales.</p>
+<div class="og">
+<div class="oc"><div class="oi">🎯</div>Sell business outcomes, not rates</div>
+<div class="oc"><div class="oi">🗺</div>Explain export &amp; import flows step by step</div>
+<div class="oc"><div class="oi">💰</div>Handle chargeable-weight objections</div>
+<div class="oc"><div class="oi">🚀</div>Sell digital logistics with confidence</div>
+</div></div>
+<div class="sr">
+<div class="sc"><div class="sv">10</div><div class="sl">Modules</div></div>
+<div class="sc"><div class="sv">80%</div><div class="sl">Pass mark</div></div>
+<div class="sc"><div class="sv" id="h-done">0</div><div class="sl">Completed</div></div>
+</div>
+<button class="sbtn" onclick="go('m1')">Start Module 1 →</button>
+</div>
+
+<div id="p-m1" class="panel"><div class="mtag">✈ Module 1 of 10</div><div class="mh2">What a freight salesperson is actually selling</div><div class="cc"><h3>The core idea</h3>
+<p>A weak freight salesperson thinks they sell transportation. A strong one sells <strong>business outcomes</strong>: speed to market, inventory continuity, production continuity, launch protection, and execution certainty.</p>
+<p>Customers rarely buy air freight because they like airplanes. They buy it because something commercially painful happens if cargo is late, mishandled, or poorly coordinated.</p>
+<div class="hl">You are not only selling linehaul — you are selling orchestration across pickup, export process, air carriage, customs coordination, and final delivery.</div></div>
+<div class="cc"><h3>Commercial implications</h3>
+<p>If you believe you sell only a rate, you will compete on price. If you believe you sell shipment certainty and business protection, you compete on value.</p>
+<ul><li>When a customer says "Send your best rate," they are often giving a signal, not a fully defined shipment.</li>
+<li>Your first responsibility is to convert vague demand into a clearly defined movement.</li></ul></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. What is the freight forwarder primarily selling in an air freight environment?</p><div class="opt" data-qid="m1q1" data-val="a" data-qid="m1q1" data-val="a" onclick="sel(this,'m1q1','a')"><div class="od"><div class="odi"></div></div>Aircraft capacity only</div><div class="opt" data-qid="m1q1" data-val="b" data-qid="m1q1" data-val="b" onclick="sel(this,'m1q1','b')"><div class="od"><div class="odi"></div></div>A basic airport-to-airport rate</div><div class="opt" data-qid="m1q1" data-val="c" data-qid="m1q1" data-val="c" onclick="sel(this,'m1q1','c')"><div class="od"><div class="odi"></div></div>Shipment orchestration, execution certainty, and commercial problem-solving</div><div class="opt" data-qid="m1q1" data-val="d" data-qid="m1q1" data-val="d" onclick="sel(this,'m1q1','d')"><div class="od"><div class="odi"></div></div>Customs brokerage only</div></div><div class="qb"><p>2. Which statement best reflects a consultative sales mindset?</p><div class="opt" data-qid="m1q2" data-val="a" data-qid="m1q2" data-val="a" onclick="sel(this,'m1q2','a')"><div class="od"><div class="odi"></div></div>"My job is to send a number faster than everyone else."</div><div class="opt" data-qid="m1q2" data-val="b" data-qid="m1q2" data-val="b" onclick="sel(this,'m1q2','b')"><div class="od"><div class="odi"></div></div>"My job is to recommend the right movement based on commercial and operational reality."</div><div class="opt" data-qid="m1q2" data-val="c" data-qid="m1q2" data-val="c" onclick="sel(this,'m1q2','c')"><div class="od"><div class="odi"></div></div>"My job ends once the customer accepts the quote."</div><div class="opt" data-qid="m1q2" data-val="d" data-qid="m1q2" data-val="d" onclick="sel(this,'m1q2','d')"><div class="od"><div class="odi"></div></div>"My job is mainly to match competitor rates."</div></div><button class="gb" onclick="grade('m1',{m1q1:"c",m1q2:"b"})">Submit Quiz</button><div class="qr" id="qr-m1"></div></div><div class="navb"><button class="bsec" onclick="go('home')">← Back</button><button class="bpri" onclick="go('m2')">Next Module →</button></div></div>
+<div id="p-m2" class="panel"><div class="mtag">✈ Module 2 of 10</div><div class="mh2">When air freight is the right recommendation</div><div class="cc"><h3>The decision framework</h3>
+<p>Air freight becomes the right recommendation when the <strong>cost of delay exceeds the premium cost of speed</strong>.</p>
+<div class="tc">
+<div class="cb gr"><h4>✅ Strong use cases for air</h4><ul><li>Production protection when downtime is expensive</li><li>Stockout prevention</li><li>Launch-date protection (retail, seasonal, promotional)</li><li>High-value, low-weight goods</li><li>Emergency recovery after ocean delay</li></ul></div>
+<div class="cb"><h4>❌ When air may be wrong</h4><ul><li>Lead time is flexible</li><li>Goal is reducing spend</li><li>Dense, non-urgent, commercially tolerant shipment</li></ul></div>
+</div>
+<div class="hl">"The right mode depends on the cost of lateness, not just the freight invoice."</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. What is the best commercial test for whether air freight is justified?</p><div class="opt" data-qid="m2q1" data-val="a" data-qid="m2q1" data-val="a" onclick="sel(this,'m2q1','a')"><div class="od"><div class="odi"></div></div>Whether the customer likes premium service</div><div class="opt" data-qid="m2q1" data-val="b" data-qid="m2q1" data-val="b" onclick="sel(this,'m2q1','b')"><div class="od"><div class="odi"></div></div>Whether the shipment is palletized</div><div class="opt" data-qid="m2q1" data-val="c" data-qid="m2q1" data-val="c" onclick="sel(this,'m2q1','c')"><div class="od"><div class="odi"></div></div>Whether the cost of delay exceeds the premium of moving by air</div><div class="opt" data-qid="m2q1" data-val="d" data-qid="m2q1" data-val="d" onclick="sel(this,'m2q1','d')"><div class="od"><div class="odi"></div></div>Whether a direct flight exists</div></div><div class="qb"><p>2. Which opportunity most strongly supports premium air service?</p><div class="opt" data-qid="m2q2" data-val="a" data-qid="m2q2" data-val="a" onclick="sel(this,'m2q2','a')"><div class="od"><div class="odi"></div></div>Low-value inventory with no time pressure</div><div class="opt" data-qid="m2q2" data-val="b" data-qid="m2q2" data-val="b" onclick="sel(this,'m2q2','b')"><div class="od"><div class="odi"></div></div>A machine part needed to prevent factory shutdown</div><div class="opt" data-qid="m2q2" data-val="c" data-qid="m2q2" data-val="c" onclick="sel(this,'m2q2','c')"><div class="od"><div class="odi"></div></div>A flexible replenishment shipment with long lead time</div><div class="opt" data-qid="m2q2" data-val="d" data-qid="m2q2" data-val="d" onclick="sel(this,'m2q2','d')"><div class="od"><div class="odi"></div></div>Goods moving months before demand begins</div></div><button class="gb" onclick="grade('m2',{m2q1:"c",m2q2:"b"})">Submit Quiz</button><div class="qr" id="qr-m2"></div></div><div class="navb"><button class="bsec" onclick="go('m1')">← Back</button><button class="bpri" onclick="go('m3')">Next Module →</button></div></div>
+<div id="p-m3" class="panel"><div class="mtag">✈ Module 3 of 10</div><div class="mh2">Air export: how freight physically moves</div><div class="cc"><h3>Export flow — step by step</h3>
+<p>A salesperson must understand the flow well enough to qualify correctly, avoid impossible promises, and explain timing honestly.</p>
+<ol><li><strong>Commercial qualification</strong> — origin, destination, commodity, dimensions, weight, Incoterms, cargo-ready date, must-arrive date</li>
+<li><strong>Rate sourcing and service design</strong> — direct vs connecting, express vs deferred, special handling</li>
+<li><strong>Booking</strong> — capacity request and confirmation</li>
+<li><strong>Pickup and origin handling</strong> — collection, dimension check, packaging confirmation</li>
+<li><strong>Export documentation</strong> — invoice, packing list, air waybill data, security data</li>
+<li><strong>Terminal acceptance</strong> — weigh, measure, screen, check acceptance criteria</li>
+<li><strong>Build-up and uplift</strong> — cargo moves in ULDs or loose load for flight departure</li></ol>
+<div class="hl">Most preventable delays happen before departure: bad docs, wrong dimensions, cargo not ready, screening issues, or missed cutoffs.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. Which sequence best reflects a sound export understanding?</p><div class="opt" data-qid="m3q1" data-val="a" data-qid="m3q1" data-val="a" onclick="sel(this,'m3q1','a')"><div class="od"><div class="odi"></div></div>Flight departure, customs filing, pickup, terminal handoff</div><div class="opt" data-qid="m3q1" data-val="b" data-qid="m3q1" data-val="b" onclick="sel(this,'m3q1','b')"><div class="od"><div class="odi"></div></div>Invoice payment, aircraft loading, pickup, export clearance</div><div class="opt" data-qid="m3q1" data-val="c" data-qid="m3q1" data-val="c" onclick="sel(this,'m3q1','c')"><div class="od"><div class="odi"></div></div>Qualification, booking, pickup/origin handling, export process, terminal acceptance, uplift</div><div class="opt" data-qid="m3q1" data-val="d" data-qid="m3q1" data-val="d" onclick="sel(this,'m3q1','d')"><div class="od"><div class="odi"></div></div>Arrival, deconsolidation, booking, final delivery</div></div><div class="qb"><p>2. Where do most preventable export delays occur?</p><div class="opt" data-qid="m3q2" data-val="a" data-qid="m3q2" data-val="a" onclick="sel(this,'m3q2','a')"><div class="od"><div class="odi"></div></div>Primarily after landing</div><div class="opt" data-qid="m3q2" data-val="b" data-qid="m3q2" data-val="b" onclick="sel(this,'m3q2','b')"><div class="od"><div class="odi"></div></div>In documentation, readiness, screening, and terminal acceptance before departure</div><div class="opt" data-qid="m3q2" data-val="c" data-qid="m3q2" data-val="c" onclick="sel(this,'m3q2','c')"><div class="od"><div class="odi"></div></div>Only in direct-flight schedules</div><div class="opt" data-qid="m3q2" data-val="d" data-qid="m3q2" data-val="d" onclick="sel(this,'m3q2','d')"><div class="od"><div class="odi"></div></div>Only after final invoicing</div></div><button class="gb" onclick="grade('m3',{m3q1:"c",m3q2:"b"})">Submit Quiz</button><div class="qr" id="qr-m3"></div></div><div class="navb"><button class="bsec" onclick="go('m2')">← Back</button><button class="bpri" onclick="go('m4')">Next Module →</button></div></div>
+<div id="p-m4" class="panel"><div class="mtag">✈ Module 4 of 10</div><div class="mh2">Air import: what happens after the flight lands</div><div class="cc"><h3>Import flow</h3>
+<p>Many salespeople oversell departure and undersell arrival. Customers often care more about release and delivery than the flight itself.</p>
+<ol><li><strong>Pre-alert</strong> — destination team receives shipment data and documents in advance</li>
+<li><strong>Arrival</strong> — cargo lands and is transferred into terminal custody</li>
+<li><strong>Breakdown</strong> — ULDs are broken down for release processing</li>
+<li><strong>Import process</strong> — customs filing, compliance review, duties/taxes handling</li>
+<li><strong>Deconsolidation</strong> — freight is separated by shipment if applicable</li>
+<li><strong>Final delivery</strong> — trucking or courier to consignee if included in scope</li></ol>
+<div class="hl">Arrival is not the same as release. A landed shipment may still be held due to customs, terminal processing, payment, or document issues.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. Which statement shows the strongest understanding of import execution?</p><div class="opt" data-qid="m4q1" data-val="a" data-qid="m4q1" data-val="a" onclick="sel(this,'m4q1','a')"><div class="od"><div class="odi"></div></div>Once the flight lands, the shipment is effectively complete</div><div class="opt" data-qid="m4q1" data-val="b" data-qid="m4q1" data-val="b" onclick="sel(this,'m4q1','b')"><div class="od"><div class="odi"></div></div>Arrival timing is the only milestone customers care about</div><div class="opt" data-qid="m4q1" data-val="c" data-qid="m4q1" data-val="c" onclick="sel(this,'m4q1','c')"><div class="od"><div class="odi"></div></div>Arrival is one milestone; release, deconsolidation, and final delivery determine the real outcome</div><div class="opt" data-qid="m4q1" data-val="d" data-qid="m4q1" data-val="d" onclick="sel(this,'m4q1','d')"><div class="od"><div class="odi"></div></div>Import delays are rarely connected to document quality</div></div><div class="qb"><p>2. What most directly affects whether a landed shipment becomes available quickly?</p><div class="opt" data-qid="m4q2" data-val="a" data-qid="m4q2" data-val="a" onclick="sel(this,'m4q2','a')"><div class="od"><div class="odi"></div></div>Aircraft paint scheme</div><div class="opt" data-qid="m4q2" data-val="b" data-qid="m4q2" data-val="b" onclick="sel(this,'m4q2','b')"><div class="od"><div class="odi"></div></div>Document quality, customs readiness, and release processing</div><div class="opt" data-qid="m4q2" data-val="c" data-qid="m4q2" data-val="c" onclick="sel(this,'m4q2','c')"><div class="od"><div class="odi"></div></div>Whether the shipper requested a direct flight</div><div class="opt" data-qid="m4q2" data-val="d" data-qid="m4q2" data-val="d" onclick="sel(this,'m4q2','d')"><div class="od"><div class="odi"></div></div>The original quote validity date</div></div><button class="gb" onclick="grade('m4',{m4q1:"c",m4q2:"b"})">Submit Quiz</button><div class="qr" id="qr-m4"></div></div><div class="navb"><button class="bsec" onclick="go('m3')">← Back</button><button class="bpri" onclick="go('m5')">Next Module →</button></div></div>
+<div id="p-m5" class="panel"><div class="mtag">✈ Module 5 of 10</div><div class="mh2">Pricing: actual, volumetric, and chargeable weight</div><div class="cc"><h3>Key definitions</h3>
+<div class="tc" style="margin-bottom:.65rem">
+<div class="cb bl"><h4>Actual weight</h4><p style="font-size:11px;color:#1e40af">Physical scale weight of the cargo.</p></div>
+<div class="cb gr"><h4>Volumetric weight</h4><p style="font-size:11px;color:#0f766e">A pricing representation of space consumed by the cargo.</p></div>
+</div>
+<div class="cb am"><h4>Chargeable weight</h4><p style="font-size:11px;color:#92400e">Whichever is higher — actual or volumetric. This is what you are billed on.</p></div>
+<div class="hl" style="margin-top:.7rem">A light but bulky shipment can rate higher than a heavier but denser one. Offer alternatives: denser packing, deferred air, consolidation, or mode shift when timing allows.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. A 180 kg shipment prices at 510 kg chargeable. Which explanation is most accurate?</p><div class="opt" data-qid="m5q1" data-val="a" data-qid="m5q1" data-val="a" onclick="sel(this,'m5q1','a')"><div class="od"><div class="odi"></div></div>The airline rounded up due to high fuel costs</div><div class="opt" data-qid="m5q1" data-val="b" data-qid="m5q1" data-val="b" onclick="sel(this,'m5q1','b')"><div class="od"><div class="odi"></div></div>The cargo occupies enough space that volumetric weight exceeds actual weight</div><div class="opt" data-qid="m5q1" data-val="c" data-qid="m5q1" data-val="c" onclick="sel(this,'m5q1','c')"><div class="od"><div class="odi"></div></div>Customs rules require carton-size billing</div><div class="opt" data-qid="m5q1" data-val="d" data-qid="m5q1" data-val="d" onclick="sel(this,'m5q1','d')"><div class="od"><div class="odi"></div></div>Destination charges were added into weight</div></div><div class="qb"><p>2. What is the strongest first response to a bulky-shipment price objection?</p><div class="opt" data-qid="m5q2" data-val="a" data-qid="m5q2" data-val="a" onclick="sel(this,'m5q2','a')"><div class="od"><div class="odi"></div></div>Discount immediately</div><div class="opt" data-qid="m5q2" data-val="b" data-qid="m5q2" data-val="b" onclick="sel(this,'m5q2','b')"><div class="od"><div class="odi"></div></div>Blame the airline and offer no options</div><div class="opt" data-qid="m5q2" data-val="c" data-qid="m5q2" data-val="c" onclick="sel(this,'m5q2','c')"><div class="od"><div class="odi"></div></div>Explain chargeable weight and discuss alternatives such as repacking, deferred air, or consolidation</div><div class="opt" data-qid="m5q2" data-val="d" data-qid="m5q2" data-val="d" onclick="sel(this,'m5q2','d')"><div class="od"><div class="odi"></div></div>Avoid discussing the basis of pricing</div></div><button class="gb" onclick="grade('m5',{m5q1:"b",m5q2:"c"})">Submit Quiz</button><div class="qr" id="qr-m5"></div></div><div class="navb"><button class="bsec" onclick="go('m4')">← Back</button><button class="bpri" onclick="go('m6')">Next Module →</button></div></div>
+<div id="p-m6" class="panel"><div class="mtag">✈ Module 6 of 10</div><div class="mh2">Scope, Incoterms, and the difference between a good quote and a bad one</div><div class="cc"><h3>What a strong quote clarifies</h3>
+<p>Many price objections are actually scope misunderstandings. "An air quote" could mean airport-to-airport, airport-to-door, or full door-to-door service.</p>
+<ul><li>Pickup included or excluded</li><li>Final delivery included or excluded</li><li>Customs included or excluded</li>
+<li>Duties and taxes included or excluded</li><li>Dimensions, commodity, and validity assumptions</li><li>Transit expectation and service level</li></ul>
+<div class="hl"><strong>Incoterms matter</strong> because they define commercial responsibility and help prevent quoting the wrong scope.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. Why do Incoterms matter so much in air freight sales?</p><div class="opt" data-qid="m6q1" data-val="a" data-qid="m6q1" data-val="a" onclick="sel(this,'m6q1','a')"><div class="od"><div class="odi"></div></div>They determine aircraft routing automatically</div><div class="opt" data-qid="m6q1" data-val="b" data-qid="m6q1" data-val="b" onclick="sel(this,'m6q1','b')"><div class="od"><div class="odi"></div></div>They define commercial responsibility and help prevent wrong-scope quoting</div><div class="opt" data-qid="m6q1" data-val="c" data-qid="m6q1" data-val="c" onclick="sel(this,'m6q1','c')"><div class="od"><div class="odi"></div></div>They remove the need to discuss delivery scope</div><div class="opt" data-qid="m6q1" data-val="d" data-qid="m6q1" data-val="d" onclick="sel(this,'m6q1','d')"><div class="od"><div class="odi"></div></div>They replace customs rules</div></div><div class="qb"><p>2. Which quote format is most likely to reduce later disputes?</p><div class="opt" data-qid="m6q2" data-val="a" data-qid="m6q2" data-val="a" onclick="sel(this,'m6q2','a')"><div class="od"><div class="odi"></div></div>"Air freight: $4,850. Valid today."</div><div class="opt" data-qid="m6q2" data-val="b" data-qid="m6q2" data-val="b" onclick="sel(this,'m6q2','b')"><div class="od"><div class="odi"></div></div>"Best possible air rate attached."</div><div class="opt" data-qid="m6q2" data-val="c" data-qid="m6q2" data-val="c" onclick="sel(this,'m6q2','c')"><div class="od"><div class="odi"></div></div>"Door-to-door air, includes pickup and final delivery, excludes duties/taxes, transit 3–5 days, subject to final acceptance."</div><div class="opt" data-qid="m6q2" data-val="d" data-qid="m6q2" data-val="d" onclick="sel(this,'m6q2','d')"><div class="od"><div class="odi"></div></div>"Approximate air price, final details after booking."</div></div><button class="gb" onclick="grade('m6',{m6q1:"b",m6q2:"c"})">Submit Quiz</button><div class="qr" id="qr-m6"></div></div><div class="navb"><button class="bsec" onclick="go('m5')">← Back</button><button class="bpri" onclick="go('m7')">Next Module →</button></div></div>
+<div id="p-m7" class="panel"><div class="mtag">✈ Module 7 of 10</div><div class="mh2">Operations literacy for salespeople</div><div class="cc"><h3>What sales should understand</h3>
+<ul><li>Core documents: invoice, packing list, air waybill data, and any permits</li>
+<li>Customs risk triggers: vague descriptions, inconsistent values, wrong consignee data, uncertain classification</li>
+<li>Handling risks: dangerous goods, batteries, oversized cargo, fragile cargo, temperature-sensitive freight</li>
+<li>How to communicate exceptions: what happened, what is being done, when the next update will be sent</li></ul>
+<div class="hl">Post-sale communication is part of pre-sale reputation.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. Which statement best captures the value of good paperwork?</p><div class="opt" data-qid="m7q1" data-val="a" data-qid="m7q1" data-val="a" onclick="sel(this,'m7q1','a')"><div class="od"><div class="odi"></div></div>It mainly helps accounting close faster</div><div class="opt" data-qid="m7q1" data-val="b" data-qid="m7q1" data-val="b" onclick="sel(this,'m7q1','b')"><div class="od"><div class="odi"></div></div>It guarantees the lowest freight rate</div><div class="opt" data-qid="m7q1" data-val="c" data-qid="m7q1" data-val="c" onclick="sel(this,'m7q1','c')"><div class="od"><div class="odi"></div></div>It supports cargo acceptance, customs processing, and lower execution risk</div><div class="opt" data-qid="m7q1" data-val="d" data-qid="m7q1" data-val="d" onclick="sel(this,'m7q1','d')"><div class="od"><div class="odi"></div></div>It replaces milestone updates</div></div><div class="qb"><p>2. Which customer update is strongest during an exception?</p><div class="opt" data-qid="m7q2" data-val="a" data-qid="m7q2" data-val="a" onclick="sel(this,'m7q2','a')"><div class="od"><div class="odi"></div></div>"Looking into it."</div><div class="opt" data-qid="m7q2" data-val="b" data-qid="m7q2" data-val="b" onclick="sel(this,'m7q2','b')"><div class="od"><div class="odi"></div></div>"Customs issue."</div><div class="opt" data-qid="m7q2" data-val="c" data-qid="m7q2" data-val="c" onclick="sel(this,'m7q2','c')"><div class="od"><div class="odi"></div></div>"The cargo landed, not our fault."</div><div class="opt" data-qid="m7q2" data-val="d" data-qid="m7q2" data-val="d" onclick="sel(this,'m7q2','d')"><div class="od"><div class="odi"></div></div>"The shipment is held due to X; we are doing Y; next update by Z time."</div></div><button class="gb" onclick="grade('m7',{m7q1:"c",m7q2:"d"})">Submit Quiz</button><div class="qr" id="qr-m7"></div></div><div class="navb"><button class="bsec" onclick="go('m6')">← Back</button><button class="bpri" onclick="go('m8')">Next Module →</button></div></div>
+<div id="p-m8" class="panel"><div class="mtag">✈ Module 8 of 10</div><div class="mh2">Traditional vs digital air freight sales</div><div class="cc"><h3>What digital actually means</h3>
+<p>Digital sales does not merely mean using software. It means using software and process discipline to make buying faster, clearer, more transparent, more accurate, and easier to execute.</p>
+<div class="tc">
+<div class="cb"><h4>Traditional sales</h4><ul><li>Email and phone-heavy quoting</li><li>Reactive service</li><li>Limited structured discovery</li><li>Price-first communication</li><li>Inconsistent handoff quality</li></ul></div>
+<div class="cb gr"><h4>Digital sales</h4><ul><li>Structured intake and discovery</li><li>Clear assumptions, visible milestones</li><li>Consultative option design</li><li>Faster, repeatable quoting workflows</li><li>Stronger promise-to-execution alignment</li></ul></div>
+</div>
+<div class="hl">The real differentiator is decision quality at speed.</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. What is the best definition of digital freight sales?</p><div class="opt" data-qid="m8q1" data-val="a" data-qid="m8q1" data-val="a" onclick="sel(this,'m8q1','a')"><div class="od"><div class="odi"></div></div>Sending more emails and quoting faster</div><div class="opt" data-qid="m8q1" data-val="b" data-qid="m8q1" data-val="b" onclick="sel(this,'m8q1','b')"><div class="od"><div class="odi"></div></div>Using structured, consultative communication supported by better data and process</div><div class="opt" data-qid="m8q1" data-val="c" data-qid="m8q1" data-val="c" onclick="sel(this,'m8q1','c')"><div class="od"><div class="odi"></div></div>Replacing all human judgment with automation</div><div class="opt" data-qid="m8q1" data-val="d" data-qid="m8q1" data-val="d" onclick="sel(this,'m8q1','d')"><div class="od"><div class="odi"></div></div>Offering the lowest rate every time</div></div><div class="qb"><p>2. Which behavior most clearly reflects digital logistics sales?</p><div class="opt" data-qid="m8q2" data-val="a" data-qid="m8q2" data-val="a" onclick="sel(this,'m8q2','a')"><div class="od"><div class="odi"></div></div>Sending a fast headline number with minimal qualification</div><div class="opt" data-qid="m8q2" data-val="b" data-qid="m8q2" data-val="b" onclick="sel(this,'m8q2','b')"><div class="od"><div class="odi"></div></div>Treating operations handoff as someone else's problem</div><div class="opt" data-qid="m8q2" data-val="c" data-qid="m8q2" data-val="c" onclick="sel(this,'m8q2','c')"><div class="od"><div class="odi"></div></div>Using structured discovery, clear assumptions, visible milestones, and consultative option design</div><div class="opt" data-qid="m8q2" data-val="d" data-qid="m8q2" data-val="d" onclick="sel(this,'m8q2','d')"><div class="od"><div class="odi"></div></div>Relying primarily on relationship strength and inbox speed</div></div><button class="gb" onclick="grade('m8',{m8q1:"b",m8q2:"c"})">Submit Quiz</button><div class="qr" id="qr-m8"></div></div><div class="navb"><button class="bsec" onclick="go('m7')">← Back</button><button class="bpri" onclick="go('m9')">Next Module →</button></div></div>
+<div id="p-m9" class="panel"><div class="mtag">✈ Module 9 of 10</div><div class="mh2">Objection handling for air freight salespeople</div><div class="cc"><h3>Core principles</h3>
+<p>Most objections are not objections to air freight itself. They are objections to incomplete understanding, price shock, unclear scope, or poor comparison.</p>
+<ul><li>Explain before discounting</li><li>Check scope equivalence before reacting to competitor pricing</li>
+<li>Translate freight cost into business impact</li><li>Offer alternatives instead of defending one option emotionally</li></ul>
+<div class="hl">"Let's make sure we're comparing the right thing. Does the competitor's price include pickup, customs coordination, destination handling, and final delivery — or is it airport-to-airport only?"</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. When a customer says a competitor is cheaper, what should you check first?</p><div class="opt" data-qid="m9q1" data-val="a" data-qid="m9q1" data-val="a" onclick="sel(this,'m9q1','a')"><div class="od"><div class="odi"></div></div>Whether the competitor has more flights</div><div class="opt" data-qid="m9q1" data-val="b" data-qid="m9q1" data-val="b" onclick="sel(this,'m9q1','b')"><div class="od"><div class="odi"></div></div>Whether the scope, assumptions, and service level are actually equivalent</div><div class="opt" data-qid="m9q1" data-val="c" data-qid="m9q1" data-val="c" onclick="sel(this,'m9q1','c')"><div class="od"><div class="odi"></div></div>Whether you can match the price instantly</div><div class="opt" data-qid="m9q1" data-val="d" data-qid="m9q1" data-val="d" onclick="sel(this,'m9q1','d')"><div class="od"><div class="odi"></div></div>Whether the customer is bluffing</div></div><div class="qb"><p>2. Which response best handles "Air is too expensive" for a bulky shipment?</p><div class="opt" data-qid="m9q2" data-val="a" data-qid="m9q2" data-val="a" onclick="sel(this,'m9q2','a')"><div class="od"><div class="odi"></div></div>"It is expensive, but that's just the market."</div><div class="opt" data-qid="m9q2" data-val="b" data-qid="m9q2" data-val="b" onclick="sel(this,'m9q2','b')"><div class="od"><div class="odi"></div></div>"I'll reduce it if you book today."</div><div class="opt" data-qid="m9q2" data-val="c" data-qid="m9q2" data-val="c" onclick="sel(this,'m9q2','c')"><div class="od"><div class="odi"></div></div>"The airline made the mistake, not us."</div><div class="opt" data-qid="m9q2" data-val="d" data-qid="m9q2" data-val="d" onclick="sel(this,'m9q2','d')"><div class="od"><div class="odi"></div></div>"This reflects chargeable weight; if cost is the issue we can review repacking, deferred air, or consolidation."</div></div><button class="gb" onclick="grade('m9',{m9q1:"b",m9q2:"d"})">Submit Quiz</button><div class="qr" id="qr-m9"></div></div><div class="navb"><button class="bsec" onclick="go('m8')">← Back</button><button class="bpri" onclick="go('m10')">Next Module →</button></div></div>
+<div id="p-m10" class="panel"><div class="mtag">✈ Module 10 of 10</div><div class="mh2">Discovery framework and sales scripts</div><div class="cc"><h3>Five-question discovery framework</h3>
+<p>A strong discovery sequence establishes the facts needed to produce a usable quote rather than a placeholder number.</p>
+<ol><li>What is the commodity?</li><li>What are the exact dimensions, weight, and piece count?</li>
+<li>When is cargo ready, and when must it arrive?</li><li>What scope is needed — airport-only or full door service?</li>
+<li>What are the Incoterms, and who controls the freight?</li></ol>
+<div class="hl">"To recommend the right air service and not just send a placeholder number, I need commodity, dimensions, cargo-ready date, required arrival date, and whether you need airport-only or full door delivery included."</div></div><div class="qc"><div class="qh"><h3>Module Quiz</h3><span class="qbg">2 questions</span></div><div class="qb"><p>1. What should a strong discovery sequence establish first?</p><div class="opt" data-qid="m10q1" data-val="a" data-qid="m10q1" data-val="a" onclick="sel(this,'m10q1','a')"><div class="od"><div class="odi"></div></div>The customer's preferred invoice format</div><div class="opt" data-qid="m10q1" data-val="b" data-qid="m10q1" data-val="b" onclick="sel(this,'m10q1','b')"><div class="od"><div class="odi"></div></div>Scope, cargo profile, timing, and responsibility</div><div class="opt" data-qid="m10q1" data-val="c" data-qid="m10q1" data-val="c" onclick="sel(this,'m10q1','c')"><div class="od"><div class="odi"></div></div>Competitor names</div><div class="opt" data-qid="m10q1" data-val="d" data-qid="m10q1" data-val="d" onclick="sel(this,'m10q1','d')"><div class="od"><div class="odi"></div></div>Whether the customer likes phone calls</div></div><div class="qb"><p>2. What is the point of offering two viable service options?</p><div class="opt" data-qid="m10q2" data-val="a" data-qid="m10q2" data-val="a" onclick="sel(this,'m10q2','a')"><div class="od"><div class="odi"></div></div>To avoid making a recommendation</div><div class="opt" data-qid="m10q2" data-val="b" data-qid="m10q2" data-val="b" onclick="sel(this,'m10q2','b')"><div class="od"><div class="odi"></div></div>To create negotiation pressure</div><div class="opt" data-qid="m10q2" data-val="c" data-qid="m10q2" data-val="c" onclick="sel(this,'m10q2','c')"><div class="od"><div class="odi"></div></div>To help the buyer compare risk, speed, and cost in a structured way</div><div class="opt" data-qid="m10q2" data-val="d" data-qid="m10q2" data-val="d" onclick="sel(this,'m10q2','d')"><div class="od"><div class="odi"></div></div>To encourage upselling without qualification</div></div><button class="gb" onclick="grade('m10',{m10q1:"b",m10q2:"c"})">Submit Quiz</button><div class="qr" id="qr-m10"></div></div><div class="navb"><button class="bsec" onclick="go('m9')">← Back</button><button class="bpri" onclick="go('exam')">Go to Final Exam →</button></div></div>
+<div id="p-exam" class="panel"><div class="etag">🎓 Final Exam — 20 questions · 80% to pass</div><div class="mh2">Final Exam</div><div class="qc"><div class="qh"><h3>Advanced Multiple Choice</h3><span class="qbg">20 questions</span></div><div class="qb"><p>1. What is the freight forwarder primarily selling in an air freight environment?</p><div class="opt" data-qid="fq1" data-val="a" data-qid="fq1" data-val="a" onclick="sel(this,'fq1','a')"><div class="od"><div class="odi"></div></div>Aircraft space only</div><div class="opt" data-qid="fq1" data-val="b" data-qid="fq1" data-val="b" onclick="sel(this,'fq1','b')"><div class="od"><div class="odi"></div></div>An airport-to-airport rate</div><div class="opt" data-qid="fq1" data-val="c" data-qid="fq1" data-val="c" onclick="sel(this,'fq1','c')"><div class="od"><div class="odi"></div></div>Shipment orchestration, execution certainty, and commercial problem-solving</div><div class="opt" data-qid="fq1" data-val="d" data-qid="fq1" data-val="d" onclick="sel(this,'fq1','d')"><div class="od"><div class="odi"></div></div>Customs brokerage only</div></div><div class="qb"><p>2. Air freight is most commercially justified when:</p><div class="opt" data-qid="fq2" data-val="a" data-qid="fq2" data-val="a" onclick="sel(this,'fq2','a')"><div class="od"><div class="odi"></div></div>The shipment is light enough to move easily</div><div class="opt" data-qid="fq2" data-val="b" data-qid="fq2" data-val="b" onclick="sel(this,'fq2','b')"><div class="od"><div class="odi"></div></div>The customer prefers premium regardless of business need</div><div class="opt" data-qid="fq2" data-val="c" data-qid="fq2" data-val="c" onclick="sel(this,'fq2','c')"><div class="od"><div class="odi"></div></div>The cost of delay is greater than the premium paid for speed and control</div><div class="opt" data-qid="fq2" data-val="d" data-qid="fq2" data-val="d" onclick="sel(this,'fq2','d')"><div class="od"><div class="odi"></div></div>Ocean freight is unavailable</div></div><div class="qb"><p>3. Chargeable weight is best defined as:</p><div class="opt" data-qid="fq3" data-val="a" data-qid="fq3" data-val="a" onclick="sel(this,'fq3','a')"><div class="od"><div class="odi"></div></div>Actual scale weight plus terminal fees</div><div class="opt" data-qid="fq3" data-val="b" data-qid="fq3" data-val="b" onclick="sel(this,'fq3','b')"><div class="od"><div class="odi"></div></div>The greater of actual weight and volumetric weight</div><div class="opt" data-qid="fq3" data-val="c" data-qid="fq3" data-val="c" onclick="sel(this,'fq3','c')"><div class="od"><div class="odi"></div></div>The weight on the commercial invoice</div><div class="opt" data-qid="fq3" data-val="d" data-qid="fq3" data-val="d" onclick="sel(this,'fq3','d')"><div class="od"><div class="odi"></div></div>Minimum billing weight set by customs</div></div><div class="qb"><p>4. Which most clearly signals a weak air freight quote?</p><div class="opt" data-qid="fq4" data-val="a" data-qid="fq4" data-val="a" onclick="sel(this,'fq4','a')"><div class="od"><div class="odi"></div></div>It includes assumptions, scope, and transit guidance</div><div class="opt" data-qid="fq4" data-val="b" data-qid="fq4" data-val="b" onclick="sel(this,'fq4','b')"><div class="od"><div class="odi"></div></div>It offers two service options based on customer priorities</div><div class="opt" data-qid="fq4" data-val="c" data-qid="fq4" data-val="c" onclick="sel(this,'fq4','c')"><div class="od"><div class="odi"></div></div>A single headline price with limited scope clarification</div><div class="opt" data-qid="fq4" data-val="d" data-qid="fq4" data-val="d" onclick="sel(this,'fq4','d')"><div class="od"><div class="odi"></div></div>It distinguishes arrival from final delivery timing</div></div><div class="qb"><p>5. A salesperson says "We sell transportation." The stronger commercial view is:</p><div class="opt" data-qid="fq5" data-val="a" data-qid="fq5" data-val="a" onclick="sel(this,'fq5','a')"><div class="od"><div class="odi"></div></div>Correct — customers only pay for airport-to-airport movement</div><div class="opt" data-qid="fq5" data-val="b" data-qid="fq5" data-val="b" onclick="sel(this,'fq5','b')"><div class="od"><div class="odi"></div></div>Incomplete — the real value includes timing protection, coordination, risk reduction, and execution across handoffs</div><div class="opt" data-qid="fq5" data-val="c" data-qid="fq5" data-val="c" onclick="sel(this,'fq5','c')"><div class="od"><div class="odi"></div></div>Incorrect — forwarders mainly sell customs classification</div><div class="opt" data-qid="fq5" data-val="d" data-qid="fq5" data-val="d" onclick="sel(this,'fq5','d')"><div class="od"><div class="odi"></div></div>Incorrect — airlines sell transportation</div></div><div class="qb"><p>6. A 180 kg shipment bills at 510 kg chargeable. Most accurate explanation:</p><div class="opt" data-qid="fq6" data-val="a" data-qid="fq6" data-val="a" onclick="sel(this,'fq6','a')"><div class="od"><div class="odi"></div></div>The airline rounded up aggressively</div><div class="opt" data-qid="fq6" data-val="b" data-qid="fq6" data-val="b" onclick="sel(this,'fq6','b')"><div class="od"><div class="odi"></div></div>Air freight is rated partly on space; a low-density shipment can price above actual weight</div><div class="opt" data-qid="fq6" data-val="c" data-qid="fq6" data-val="c" onclick="sel(this,'fq6','c')"><div class="od"><div class="odi"></div></div>The customer was charged destination handling in advance</div><div class="opt" data-qid="fq6" data-val="d" data-qid="fq6" data-val="d" onclick="sel(this,'fq6','d')"><div class="od"><div class="odi"></div></div>Customs rules require billing by carton size</div></div><div class="qb"><p>7. Which sequence best reflects sound export understanding?</p><div class="opt" data-qid="fq7" data-val="a" data-qid="fq7" data-val="a" onclick="sel(this,'fq7','a')"><div class="od"><div class="odi"></div></div>Flight departure, customs filing, pickup, terminal delivery</div><div class="opt" data-qid="fq7" data-val="b" data-qid="fq7" data-val="b" onclick="sel(this,'fq7','b')"><div class="od"><div class="odi"></div></div>Quote, invoice payment, aircraft loading, customs release</div><div class="opt" data-qid="fq7" data-val="c" data-qid="fq7" data-val="c" onclick="sel(this,'fq7','c')"><div class="od"><div class="odi"></div></div>Qualification, booking, pickup/origin handling, export process, terminal acceptance, uplift</div><div class="opt" data-qid="fq7" data-val="d" data-qid="fq7" data-val="d" onclick="sel(this,'fq7','d')"><div class="od"><div class="odi"></div></div>Cargo arrival, deconsolidation, handoff to airline, delivery to shipper</div></div><div class="qb"><p>8. Strongest understanding of import execution:</p><div class="opt" data-qid="fq8" data-val="a" data-qid="fq8" data-val="a" onclick="sel(this,'fq8','a')"><div class="od"><div class="odi"></div></div>Once the flight lands, the shipment is complete</div><div class="opt" data-qid="fq8" data-val="b" data-qid="fq8" data-val="b" onclick="sel(this,'fq8','b')"><div class="od"><div class="odi"></div></div>Import success depends only on whether the airline arrived on time</div><div class="opt" data-qid="fq8" data-val="c" data-qid="fq8" data-val="c" onclick="sel(this,'fq8','c')"><div class="od"><div class="odi"></div></div>Arrival is one milestone; release, deconsolidation, and final delivery determine the real outcome</div><div class="opt" data-qid="fq8" data-val="d" data-qid="fq8" data-val="d" onclick="sel(this,'fq8','d')"><div class="od"><div class="odi"></div></div>Import delays are usually unrelated to document quality</div></div><div class="qb"><p>9. Why do Incoterms matter so much in air freight sales?</p><div class="opt" data-qid="fq9" data-val="a" data-qid="fq9" data-val="a" onclick="sel(this,'fq9','a')"><div class="od"><div class="odi"></div></div>They determine aircraft routing</div><div class="opt" data-qid="fq9" data-val="b" data-qid="fq9" data-val="b" onclick="sel(this,'fq9','b')"><div class="od"><div class="odi"></div></div>They define commercial responsibility and help prevent quoting the wrong service scope</div><div class="opt" data-qid="fq9" data-val="c" data-qid="fq9" data-val="c" onclick="sel(this,'fq9','c')"><div class="od"><div class="odi"></div></div>They replace customs rules for most imports</div><div class="opt" data-qid="fq9" data-val="d" data-qid="fq9" data-val="d" onclick="sel(this,'fq9','d')"><div class="od"><div class="odi"></div></div>They remove the need to discuss destination charges</div></div><div class="qb"><p>10. Value of good paperwork in air freight:</p><div class="opt" data-qid="fq10" data-val="a" data-qid="fq10" data-val="a" onclick="sel(this,'fq10','a')"><div class="od"><div class="odi"></div></div>Helps accounting close files faster</div><div class="opt" data-qid="fq10" data-val="b" data-qid="fq10" data-val="b" onclick="sel(this,'fq10','b')"><div class="od"><div class="odi"></div></div>Reduces the need for visibility tools</div><div class="opt" data-qid="fq10" data-val="c" data-qid="fq10" data-val="c" onclick="sel(this,'fq10','c')"><div class="od"><div class="odi"></div></div>Supports cargo acceptance, customs processing, and lower execution risk</div><div class="opt" data-qid="fq10" data-val="d" data-qid="fq10" data-val="d" onclick="sel(this,'fq10','d')"><div class="od"><div class="odi"></div></div>Guarantees the lowest rate</div></div><div class="qb"><p>11. A prospect emails "Need your best air rate from Shanghai to Atlanta. Urgent." Strongest first response:</p><div class="opt" data-qid="fq11" data-val="a" data-qid="fq11" data-val="a" onclick="sel(this,'fq11','a')"><div class="od"><div class="odi"></div></div>"Best rate attached. Space subject to availability."</div><div class="opt" data-qid="fq11" data-val="b" data-qid="fq11" data-val="b" onclick="sel(this,'fq11','b')"><div class="od"><div class="odi"></div></div>"Before I quote, please confirm commodity, dimensions, cargo-ready date, required arrival date, and whether you need door delivery."</div><div class="opt" data-qid="fq11" data-val="c" data-qid="fq11" data-val="c" onclick="sel(this,'fq11','c')"><div class="od"><div class="odi"></div></div>"Urgent air to Atlanta is expensive, but we can do it."</div><div class="opt" data-qid="fq11" data-val="d" data-qid="fq11" data-val="d" onclick="sel(this,'fq11','d')"><div class="od"><div class="odi"></div></div>"Please send the invoice after booking."</div></div><div class="qb"><p>12. Customer says your bulky shipment quote is too expensive. Best first move:</p><div class="opt" data-qid="fq12" data-val="a" data-qid="fq12" data-val="a" onclick="sel(this,'fq12','a')"><div class="od"><div class="odi"></div></div>Offer a discount immediately</div><div class="opt" data-qid="fq12" data-val="b" data-qid="fq12" data-val="b" onclick="sel(this,'fq12','b')"><div class="od"><div class="odi"></div></div>Explain chargeable-weight logic then discuss denser packing, deferred air, consolidation, or mode shift</div><div class="opt" data-qid="fq12" data-val="c" data-qid="fq12" data-val="c" onclick="sel(this,'fq12','c')"><div class="od"><div class="odi"></div></div>Tell the customer the airline controls pricing</div><div class="opt" data-qid="fq12" data-val="d" data-qid="fq12" data-val="d" onclick="sel(this,'fq12','d')"><div class="od"><div class="odi"></div></div>Remove destination charges without discussion</div></div><div class="qb"><p>13. Competitor quote is $2,000 lower. Best response protecting credibility and margin:</p><div class="opt" data-qid="fq13" data-val="a" data-qid="fq13" data-val="a" onclick="sel(this,'fq13','a')"><div class="od"><div class="odi"></div></div>"We can match it if you send the PDF."</div><div class="opt" data-qid="fq13" data-val="b" data-qid="fq13" data-val="b" onclick="sel(this,'fq13','b')"><div class="od"><div class="odi"></div></div>"They are probably leaving things out."</div><div class="opt" data-qid="fq13" data-val="c" data-qid="fq13" data-val="c" onclick="sel(this,'fq13','c')"><div class="od"><div class="odi"></div></div>"Let's compare line by line — does their price include pickup, customs, destination handling, and final delivery?"</div><div class="opt" data-qid="fq13" data-val="d" data-qid="fq13" data-val="d" onclick="sel(this,'fq13','d')"><div class="od"><div class="odi"></div></div>"Our service is premium so price shouldn't matter."</div></div><div class="qb"><p>14. Shipment landed on time but customs release delayed due to invoice inconsistency. Strongest customer update:</p><div class="opt" data-qid="fq14" data-val="a" data-qid="fq14" data-val="a" onclick="sel(this,'fq14','a')"><div class="od"><div class="odi"></div></div>"The cargo landed, but customs is taking longer."</div><div class="opt" data-qid="fq14" data-val="b" data-qid="fq14" data-val="b" onclick="sel(this,'fq14','b')"><div class="od"><div class="odi"></div></div>"There is a customs delay. We will update you later."</div><div class="opt" data-qid="fq14" data-val="c" data-qid="fq14" data-val="c" onclick="sel(this,'fq14','c')"><div class="od"><div class="odi"></div></div>"The shipment has arrived but release is delayed due to an invoice inconsistency. We are coordinating correction now and will send the next update by 3:00 PM."</div><div class="opt" data-qid="fq14" data-val="d" data-qid="fq14" data-val="d" onclick="sel(this,'fq14','d')"><div class="od"><div class="odi"></div></div>"The airline delivered on time so the remaining issue is outside our control."</div></div><div class="qb"><p>15. Customer asks why air instead of ocean for a replenishment shipment. Strongest answer:</p><div class="opt" data-qid="fq15" data-val="a" data-qid="fq15" data-val="a" onclick="sel(this,'fq15','a')"><div class="od"><div class="odi"></div></div>"Air is always the superior mode because it is faster."</div><div class="opt" data-qid="fq15" data-val="b" data-qid="fq15" data-val="b" onclick="sel(this,'fq15','b')"><div class="od"><div class="odi"></div></div>"Ocean is outdated for modern supply chains."</div><div class="opt" data-qid="fq15" data-val="c" data-qid="fq15" data-val="c" onclick="sel(this,'fq15','c')"><div class="od"><div class="odi"></div></div>"The right choice depends on the business cost of lateness versus the transport savings from slower modes."</div><div class="opt" data-qid="fq15" data-val="d" data-qid="fq15" data-val="d" onclick="sel(this,'fq15','d')"><div class="od"><div class="odi"></div></div>"Air is better whenever the cargo is palletized."</div></div><div class="qb"><p>16. Salesperson receives incomplete dimensions but firm request for same-day quoting. Best judgment:</p><div class="opt" data-qid="fq16" data-val="a" data-qid="fq16" data-val="a" onclick="sel(this,'fq16','a')"><div class="od"><div class="odi"></div></div>Quote immediately with no assumptions to avoid delay</div><div class="opt" data-qid="fq16" data-val="b" data-qid="fq16" data-val="b" onclick="sel(this,'fq16','b')"><div class="od"><div class="odi"></div></div>Refuse until all data is perfect</div><div class="opt" data-qid="fq16" data-val="c" data-qid="fq16" data-val="c" onclick="sel(this,'fq16','c')"><div class="od"><div class="odi"></div></div>Provide a clearly conditional estimate tied to stated assumptions and request confirmation before booking</div><div class="opt" data-qid="fq16" data-val="d" data-qid="fq16" data-val="d" onclick="sel(this,'fq16','d')"><div class="od"><div class="odi"></div></div>Use a low placeholder weight to stay competitive</div></div><div class="qb"><p>17. Which best reflects digital freight sales vs traditional?</p><div class="opt" data-qid="fq17" data-val="a" data-qid="fq17" data-val="a" onclick="sel(this,'fq17','a')"><div class="od"><div class="odi"></div></div>Sending a fast headline number with minimal qualification</div><div class="opt" data-qid="fq17" data-val="b" data-qid="fq17" data-val="b" onclick="sel(this,'fq17','b')"><div class="od"><div class="odi"></div></div>Treating operations handoff as a separate issue after the sale</div><div class="opt" data-qid="fq17" data-val="c" data-qid="fq17" data-val="c" onclick="sel(this,'fq17','c')"><div class="od"><div class="odi"></div></div>Using structured discovery, clear assumptions, visible milestones, and consultative option design</div><div class="opt" data-qid="fq17" data-val="d" data-qid="fq17" data-val="d" onclick="sel(this,'fq17','d')"><div class="od"><div class="odi"></div></div>Relying mainly on relationship strength and follow-up calls</div></div><div class="qb"><p>18. Which situation most strongly suggests recommending against premium air?</p><div class="opt" data-qid="fq18" data-val="a" data-qid="fq18" data-val="a" onclick="sel(this,'fq18','a')"><div class="od"><div class="odi"></div></div>High-value cargo with a product launch deadline</div><div class="opt" data-qid="fq18" data-val="b" data-qid="fq18" data-val="b" onclick="sel(this,'fq18','b')"><div class="od"><div class="odi"></div></div>Low urgency, flexible timing, and customer's main goal is reducing transport spend</div><div class="opt" data-qid="fq18" data-val="c" data-qid="fq18" data-val="c" onclick="sel(this,'fq18','c')"><div class="od"><div class="odi"></div></div>A machine part needed to prevent factory shutdown</div><div class="opt" data-qid="fq18" data-val="d" data-qid="fq18" data-val="d" onclick="sel(this,'fq18','d')"><div class="od"><div class="odi"></div></div>Seasonal retail deadline with little schedule tolerance</div></div><div class="qb"><p>19. Customer says "We only want your lowest number." Strongest interpretation:</p><div class="opt" data-qid="fq19" data-val="a" data-qid="fq19" data-val="a" onclick="sel(this,'fq19','a')"><div class="od"><div class="odi"></div></div>Customer has fully defined the shipment and only needs billing support</div><div class="opt" data-qid="fq19" data-val="b" data-qid="fq19" data-val="b" onclick="sel(this,'fq19','b')"><div class="od"><div class="odi"></div></div>Customer is price-shopping so scope clarity no longer matters</div><div class="opt" data-qid="fq19" data-val="c" data-qid="fq19" data-val="c" onclick="sel(this,'fq19','c')"><div class="od"><div class="odi"></div></div>The customer may still need structured qualification — a low but incomplete quote can damage trust later</div><div class="opt" data-qid="fq19" data-val="d" data-qid="fq19" data-val="d" onclick="sel(this,'fq19','d')"><div class="od"><div class="odi"></div></div>The right move is to quote airport-to-airport regardless of actual need</div></div><div class="qb"><p>20. A customer needs urgent shipment moved, but cargo won't be ready until after the last feasible origin cutoff. Best response:</p><div class="opt" data-qid="fq20" data-val="a" data-qid="fq20" data-val="a" onclick="sel(this,'fq20','a')"><div class="od"><div class="odi"></div></div>Promise same-day departure and hope operations can solve it</div><div class="opt" data-qid="fq20" data-val="b" data-qid="fq20" data-val="b" onclick="sel(this,'fq20','b')"><div class="od"><div class="odi"></div></div>Quote the service as if cutoff were still achievable, since urgency matters most</div><div class="opt" data-qid="fq20" data-val="c" data-qid="fq20" data-val="c" onclick="sel(this,'fq20','c')"><div class="od"><div class="odi"></div></div>Explain that the shipment timing no longer supports today's uplift and present the next realistic option with its business implications</div><div class="opt" data-qid="fq20" data-val="d" data-qid="fq20" data-val="d" onclick="sel(this,'fq20','d')"><div class="od"><div class="odi"></div></div>Avoid discussing cutoffs unless asked directly</div></div><button class="gb" id="exam-btn" onclick="gradeExam({fq1:"c",fq2:"c",fq3:"b",fq4:"c",fq5:"b",fq6:"b",fq7:"c",fq8:"c",fq9:"b",fq10:"c",fq11:"b",fq12:"b",fq13:"c",fq14:"c",fq15:"c",fq16:"c",fq17:"c",fq18:"b",fq19:"c",fq20:"c"})">Submit Final Exam</button><div class="qr" id="qr-exam"></div><div class="ra" id="exam-result" style="display:none"><div class="scircle"><div class="sbig" id="score-big">0</div><div class="spct">%</div></div><div id="score-msg" style="font-size:17px;font-weight:600;margin-bottom:.4rem;color:var(--navy)"></div><div id="score-sub" style="font-size:12px;color:var(--g400);margin-bottom:1rem"></div><button class="bpri" onclick="go('results')">View Certificate →</button></div></div><div class="navb"><button class="bsec" onclick="go('m10')">← Back</button></div></div>
+<div id="p-results" class="panel">
+<div class="mh2">Results &amp; Certificate</div>
+<div class="sr">
+<div class="sc"><div class="sv" id="r-done">0</div><div class="sl">Modules completed</div></div>
+<div class="sc"><div class="sv" id="r-score">—</div><div class="sl">Final exam score</div></div>
+<div class="sc"><div class="sv" id="r-status">—</div><div class="sl">Status</div></div>
+</div>
+<div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:.6rem;text-transform:uppercase;letter-spacing:.07em">Module Badges</div>
+<div class="bgrid" id="bgrid"></div>
+<div class="certbox" id="certbox">
+<div class="cseal">🏆</div>
+<div class="ctitle">Certificate of Completion</div>
+<div class="csub">This certifies successful completion of</div>
+<div class="ccourse">Air Freight Digital Logistics Sales Masterclass</div>
+<div class="cpill" id="cpill"></div>
+<div class="cdate" id="cdate"></div>
+<button class="printbtn" onclick="window.print()">🖨 Print Certificate</button>
+</div>
+</div>
+
+</div></div>
+<script>
+var sel_state={};
+var done={};
+var finalScore=null;
+var mods=['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10'];
+var titles={home:'Welcome',m1:'Module 1',m2:'Module 2',m3:'Module 3',m4:'Module 4',m5:'Module 5',m6:'Module 6',m7:'Module 7',m8:'Module 8',m9:'Module 9',m10:'Module 10',exam:'Final Exam',results:'Results & Certificate'};
+var badges=[
+  {id:'m1',e:'🎯',n:'Value Seller'},{id:'m2',e:'⚡',n:'Mode Strategist'},
+  {id:'m3',e:'📦',n:'Export Expert'},{id:'m4',e:'🛬',n:'Import Pro'},
+  {id:'m5',e:'💰',n:'Pricing Master'},{id:'m6',e:'📋',n:'Scope Clarity'},
+  {id:'m7',e:'🔧',n:'Ops Literate'},{id:'m8',e:'🚀',n:'Digital Seller'},
+  {id:'m9',e:'🛡',n:'Objection Handler'},{id:'m10',e:'🎤',n:'Discovery Ace'}
+];
+
+function go(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active')});
+  var ni=document.getElementById('ni-'+id);
+  if(ni) ni.classList.add('active');
+  document.getElementById('tt').textContent=titles[id]||id;
+  window.scrollTo(0,0);
+  if(id==='results') renderResults();
+}
+
+function sel(el,qid,val){
+  var group=document.querySelectorAll('[data-qid="'+qid+'"]');
+  group.forEach(function(o){o.classList.remove('sel','ok','bad')});
+  el.classList.add('sel');
+  sel_state[qid]=val;
+}
+
+function grade(mid,answers){
+  var keys=Object.keys(answers);
+  var correct=0;
+  keys.forEach(function(qid){
+    var chosen=sel_state[qid];
+    var right=answers[qid];
+    var opts=document.querySelectorAll('[onclick*="''+qid+''"]');
+    opts.forEach(function(o){
+      var v=o.getAttribute('onclick').match(/\'([a-d])\'\)/)[1];
+      o.classList.remove('sel','ok','bad');
+      if(v===right) o.classList.add('ok');
+      else if(v===chosen && chosen!==right) o.classList.add('bad');
+    });
+    if(chosen===right) correct++;
+  });
+  var pct=Math.round(correct/keys.length*100);
+  var pass=pct>=80;
+  var el=document.getElementById('qr-'+mid);
+  el.style.display='block';
+  el.className='qr '+(pass?'pass':'fail');
+  el.textContent=pct+'% — '+correct+'/'+keys.length+' correct — '+(pass?'✓ Passed!':'Needs review. Try again.');
+  if(pass && !done[mid]){
+    done[mid]=true;
+    var nd=document.getElementById('nd-'+mid);
+    if(nd){nd.textContent='✓'}
+    document.getElementById('ni-'+mid).classList.add('done');
+    updateProgress();
+  }
+}
+
+function gradeExam(answers){
+  var keys=Object.keys(answers);
+  var correct=0;
+  keys.forEach(function(qid){
+    var chosen=sel_state[qid];
+    var right=answers[qid];
+    var opts=document.querySelectorAll('[data-qid="'+qid+'"]');
+    opts.forEach(function(o){
+      var v=o.getAttribute('data-val');
+      o.classList.remove('sel','ok','bad');
+      if(v===right) o.classList.add('ok');
+      else if(v===chosen && chosen!==right) o.classList.add('bad');
+    });
+    if(chosen===right) correct++;
+  });
+  var pct=Math.round(correct/keys.length*100);
+  var pass=pct>=80;
+  finalScore=pct;
+  var qr=document.getElementById('qr-exam');
+  qr.style.display='block';
+  qr.className='qr '+(pass?'pass':'fail');
+  qr.textContent=pct+'% — '+correct+'/'+keys.length+' correct — '+(pass?'✓ Passed!':'Score below 80%. Review modules and try again.');
+  var ra=document.getElementById('exam-result');
+  ra.style.display='block';
+  document.getElementById('score-big').textContent=pct;
+  document.getElementById('score-msg').textContent=pass?'Congratulations — you passed!':'Not quite — keep reviewing';
+  document.getElementById('score-sub').textContent=pass?'You have earned your certificate of completion.':'You need 80% or higher to pass. Review the modules and try again.';
+  if(pass){
+    document.getElementById('nd-exam').textContent='✓';
+    document.getElementById('ni-exam').classList.add('done');
+  }
+  updateProgress();
+}
+
+function updateProgress(){
+  var n=Object.keys(done).length;
+  var total=10;
+  var pct=Math.round(n/total*100);
+  document.getElementById('pf').style.width=pct+'%';
+  document.getElementById('pp').textContent=pct+'%';
+  document.getElementById('bc').textContent=n;
+  var hd=document.getElementById('h-done');
+  if(hd) hd.textContent=n;
+}
+
+function renderResults(){
+  var n=Object.keys(done).length;
+  document.getElementById('r-done').textContent=n;
+  document.getElementById('r-score').textContent=finalScore!==null?finalScore+'%':'—';
+  var pass=finalScore!==null && finalScore>=80;
+  document.getElementById('r-status').textContent=finalScore===null?'—':pass?'Passed':'Failed';
+  var bg=document.getElementById('bgrid');
+  bg.innerHTML='';
+  badges.forEach(function(b){
+    var earned=!!done[b.id];
+    bg.innerHTML+='<div class="bi'+(earned?' earned':'')+'"><div class="bcirc'+(earned?' earned':'')+'">'+b.e+'</div><div class="bn">'+b.n+'</div></div>';
+  });
+  var cb=document.getElementById('certbox');
+  if(pass){
+    cb.classList.add('show');
+    document.getElementById('cpill').textContent='Final Score: '+finalScore+'%';
+    document.getElementById('cdate').textContent='Completed '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  } else {
+    cb.classList.remove('show');
+  }
+}
+
+// Build badge grid on load
+(function(){
+  var bg=document.getElementById('bgrid');
+  if(bg){
+    badges.forEach(function(b){
+      bg.innerHTML+='<div class="bi"><div class="bcirc">'+b.e+'</div><div class="bn">'+b.n+'</div></div>';
+    });
+  }
+})();
+</script>
+</body>
+</html>
